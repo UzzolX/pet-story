@@ -1,5 +1,4 @@
 INSERT INTO `business_settings` (`id`, `type`, `value`, `lang`, `created_at`, `updated_at`) VALUES 
-(NULL, 'product_external_link_for_seller', 1, NULL, current_timestamp(), current_timestamp()),
 (NULL, 'use_floating_buttons', 1, NULL, current_timestamp(), current_timestamp()),
 (NULL, 'seller_commission_type', 'fixed_rate', NULL, current_timestamp(), current_timestamp());
 

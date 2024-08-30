@@ -105,6 +105,19 @@
                                         required
                                     ></textarea>
                                 </div>
+
+                                <!-- Recaptcha -->
+                                @if(get_setting('google_recaptcha') == 1)
+                                    <div class="form-group">
+                                        <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_KEY') }}"></div>
+                                    </div>
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="invalid-feedback" role="alert" style="display: block;">
+                                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                        </span>
+                                    @endif
+                                @endif
+
                                 <!-- Submit Button -->
                                 <div class="mt-4">
                                     @if (env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null)
@@ -128,6 +141,33 @@
 @endsection
 
 @section('script')
+    @if(get_setting('google_recaptcha') == 1)
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endif
+    
+    <script type="text/javascript">
+        @if(get_setting('google_recaptcha') == 1)
+        // making the CAPTCHA  a required field for form submission
+        $(document).ready(function(){
+            $("#reg-form").on("submit", function(evt)
+            {
+                var response = grecaptcha.getResponse();
+                if(response.length == 0)
+                {
+                //reCaptcha not verified
+                    alert("please verify you are human!");
+                    evt.preventDefault();
+                    return false;
+                }
+                //captcha verified
+                //do the rest of your validations here
+                $("#reg-form").submit();
+            });
+        });
+        @endif
+    </script>
+
+
     <script type="text/javascript">
         function showWarning(){
             AIZ.plugins.notify('warning', "{{ translate('Something went wrong.') }}");

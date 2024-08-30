@@ -109,9 +109,8 @@ class CommissionController extends Controller
             $orderDetail->payment_status = 'paid';
             $orderDetail->save();
 
-            $seller = $seller->fresh();
-
             if ($seller != null) {
+                $seller = $seller->fresh();
                 $commission_percentage = 0;
                 // getting commission percentage
                 if(get_setting('vendor_commission_activation')){
